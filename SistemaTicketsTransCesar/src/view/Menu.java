@@ -1,10 +1,17 @@
 package view;
 
 import java.util.Scanner;
+import service.*;
 
 public class Menu {
 
     private Scanner sc = new Scanner(System.in);
+
+    // 🔥 SERVICES (CLAVE COMO LÍDER)
+    private VehiculoService vehiculoService = new VehiculoService();
+    private PersonaService personaService = new PersonaService();
+    private TicketService ticketService = new TicketService();
+    private ReporteService reporteService = new ReporteService();
 
     public void mostrar() {
         int opcion;
@@ -67,7 +74,9 @@ public class Menu {
         System.out.print("Ruta: ");
         String ruta = sc.nextLine();
 
-        System.out.println("Vehículo registrado (pendiente integración)");
+        String tipoStr = (tipo == 1) ? "Buseta" : (tipo == 2) ? "MicroBus" : "Bus";
+
+        vehiculoService.registrarVehiculo(tipoStr, placa, ruta);
     }
 
     private void registrarConductor() {
@@ -85,7 +94,7 @@ public class Menu {
         System.out.print("Categoría (B1, B2, C1, C2): ");
         String categoria = sc.nextLine();
 
-        System.out.println("Conductor registrado (pendiente integración)");
+        personaService.registrarConductor(cedula, nombre, licencia, categoria);
     }
 
     private void registrarPasajero() {
@@ -106,7 +115,7 @@ public class Menu {
         int tipo = sc.nextInt();
         sc.nextLine();
 
-        System.out.println("Pasajero registrado (pendiente integración)");
+        personaService.registrarPasajero(cedula, nombre, tipo);
     }
 
     private void venderTicket() {
@@ -124,7 +133,7 @@ public class Menu {
         System.out.print("Destino: ");
         String destino = sc.nextLine();
 
-        System.out.println("Ticket generado (pendiente integración)");
+        ticketService.venderTicket(cedula, placa, origen, destino);
     }
 
     private void menuReportes() {
@@ -144,16 +153,16 @@ public class Menu {
 
             switch(opcion) {
                 case 1:
-                    System.out.println("Listado de tickets (pendiente)");
+                    reporteService.listarTickets();
                     break;
                 case 2:
-                    System.out.println("Total recaudado (pendiente)");
+                    reporteService.totalRecaudado();
                     break;
                 case 3:
-                    System.out.println("Pasajeros por tipo (pendiente)");
+                    reporteService.pasajerosPorTipo();
                     break;
                 case 4:
-                    System.out.println("Vehículo con más ventas (pendiente)");
+                    reporteService.vehiculoMasVentas();
                     break;
             }
 
