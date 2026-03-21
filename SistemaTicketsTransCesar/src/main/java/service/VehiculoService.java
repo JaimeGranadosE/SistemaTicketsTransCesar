@@ -9,25 +9,29 @@ package service;
  * @author Personal
  */
 
+import model.Vehiculo;
 import java.util.ArrayList;
 import java.util.List;
-import model.Vehiculo;
 
 public class VehiculoService {
     private List<Vehiculo> vehiculos = new ArrayList<>();
 
-    public void registrarVehiculo(Vehiculo v) {
+    public void registrarVehiculo(String tipo, String placa, String ruta) {
+        if (placa == null || placa.isEmpty()) {
+            System.out.println("Error: la placa no puede estar vacía.");
+            return;
+        }
+        boolean existe = vehiculos.stream().anyMatch(v -> v.getPlaca().equalsIgnoreCase(placa));
+        if (existe) {
+            System.out.println("Error: ya existe un vehículo con esa placa.");
+            return;
+        }
+        Vehiculo v = new Vehiculo(tipo, placa, ruta);
         vehiculos.add(v);
-        System.out.println("Vehículo registrado: " + v.getPlaca());
+        System.out.println("Vehículo registrado: " + placa);
     }
 
     public List<Vehiculo> getVehiculos() {
         return vehiculos;
-    }
-    
-    public void registrarVehiculo(String tipo, String placa, String ruta) {
-        Vehiculo v = new Vehiculo(placa, tipo + " - " + ruta);
-        vehiculos.add(v);
-        System.out.println("Vehículo registrado: " + v.getPlaca() + " (" + tipo + ")");
     }
 }

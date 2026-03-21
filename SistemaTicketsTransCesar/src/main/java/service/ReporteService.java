@@ -9,10 +9,8 @@ package service;
  * @author Personal
  */
 
-import java.util.List;
 import model.Ticket;
-import model.Pasajero;
-import model.Vehiculo;
+import java.util.List;
 
 public class ReporteService {
     private List<Ticket> tickets;
@@ -22,6 +20,10 @@ public class ReporteService {
     }
 
     public void listarTickets() {
+        if (tickets.isEmpty()) {
+            System.out.println("No hay tickets registrados.");
+            return;
+        }
         System.out.println("\n=== LISTA DE TICKETS ===");
         for (Ticket t : tickets) {
             System.out.println("Vehículo: " + t.getVehiculo().getPlaca() +
@@ -32,36 +34,37 @@ public class ReporteService {
     }
 
     public void totalRecaudado() {
+        if (tickets.isEmpty()) {
+            System.out.println("No hay tickets para calcular el total.");
+            return;
+        }
         double total = tickets.stream().mapToDouble(Ticket::getPrecio).sum();
-        System.out.println("\nTotal recaudado: " + total);
+        System.out.println("Total recaudado: $" + total);
     }
 
     public void pasajerosPorTipo() {
-        long regulares = tickets.stream().filter(t -> t.getPasajero().getTipo().equals("Regular")).count();
-        long estudiantes = tickets.stream().filter(t -> t.getPasajero().getTipo().equals("Estudiante")).count();
-        long adultos = tickets.stream().filter(t -> t.getPasajero().getTipo().equals("Adulto Mayor")).count();
+        if (tickets.isEmpty()) {
+            System.out.println("No hay tickets para calcular pasajeros por tipo.");
+            return;
+        }
+        long regulares = tickets.stream().filter(t -> t.getPasajero().getTipo() == 1).count();
+        long estudiantes = tickets.stream().filter(t -> t.getPasajero().getTipo() == 2).count();
+        long adultos = tickets.stream().filter(t -> t.getPasajero().getTipo() == 3).count();
 
-        System.out.println("\n=== Pasajeros por tipo ===");
-        System.out.println("Regular: " + regulares);
-        System.out.println("Estudiante: " + estudiantes);
-        System.out.println("Adulto Mayor: " + adultos);
+        System.out.println("Pasajeros por tipo:");
+        System.out.println("Regulares: " + regulares);
+        System.out.println("Estudiantes: " + estudiantes);
+        System.out.println("Adultos mayores: " + adultos);
     }
 
     public void vehiculoMasVentas() {
-        Vehiculo maxVehiculo = tickets.stream()
-            .map(Ticket::getVehiculo)
-            .distinct()
-            .max((v1, v2) -> Long.compare(
-                tickets.stream().filter(t -> t.getVehiculo().equals(v1)).count(),
-                tickets.stream().filter(t -> t.getVehiculo().equals(v2)).count()
-            ))
-            .orElse(null);
-
-        if (maxVehiculo != null) {
-            long ventas = tickets.stream().filter(t -> t.getVehiculo().equals(maxVehiculo)).count();
-            System.out.println("\nVehículo con más ventas: " + maxVehiculo.getPlaca() + " (" + ventas + " tickets)");
-        } else {
-            System.out.println("\nNo hay tickets registrados.");
+        if (tickets.isEmpty()) {
+            System.out.println("No hay tickets para calcular vehículo con más ventas.");
+            return;
         }
+        String placa = tickets.stream()
+            .map(t -> t.getVehiculo().getPlaca())
+            .reduce((a, b) -> a.equals(b) ? a : b).orElse("N/A");
+        System.out.println("Vehículo con más ventas: " + placa);
     }
 }

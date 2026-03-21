@@ -9,43 +9,54 @@ package service;
  * @author Personal
  */
 
+import model.Pasajero;
+import model.Conductor;
 import java.util.ArrayList;
 import java.util.List;
-import model.Conductor;
-import model.Pasajero;
 
 public class PersonaService {
-    private List<Conductor> conductores = new ArrayList<>();
     private List<Pasajero> pasajeros = new ArrayList<>();
-
-    public void registrarConductor(Conductor c) {
-        conductores.add(c);
-        System.out.println("Conductor registrado: " + c.getNombre());
-    }
-
-    public void registrarPasajero(Pasajero p) {
-        pasajeros.add(p);
-        System.out.println("Pasajero registrado: " + p.getNombre());
-    }
-    
-    public void registrarConductor(String cedula, String nombre, String licencia, String categoria) {
-        Conductor c = new Conductor(nombre, cedula, licencia);
-        conductores.add(c);
-        System.out.println("Conductor registrado: " + c.getNombre() + " (" + categoria + ")");
-    }
+    private List<Conductor> conductores = new ArrayList<>();
 
     public void registrarPasajero(String cedula, String nombre, int tipo) {
-        String tipoStr = (tipo == 1) ? "Regular" : (tipo == 2) ? "Estudiante" : "Adulto Mayor";
-        Pasajero p = new Pasajero(nombre, cedula, tipoStr);
+        if (cedula == null || cedula.isEmpty() || nombre == null || nombre.isEmpty()) {
+            System.out.println("Error: cédula y nombre no pueden estar vacíos.");
+            return;
+        }
+        boolean existe = pasajeros.stream().anyMatch(p -> p.getCedula().equalsIgnoreCase(cedula));
+        if (existe) {
+            System.out.println("Error: ya existe un pasajero con esa cédula.");
+            return;
+        }
+        if (tipo < 1 || tipo > 3) {
+            System.out.println("Error: tipo de pasajero inválido (1-Regular, 2-Estudiante, 3-Adulto Mayor).");
+            return;
+        }
+        Pasajero p = new Pasajero(cedula, nombre, tipo);
         pasajeros.add(p);
-        System.out.println("Pasajero registrado: " + p.getNombre() + " (" + tipoStr + ")");
+        System.out.println("Pasajero registrado: " + nombre);
     }
 
-    public List<Conductor> getConductores() {
-        return conductores;
+    public void registrarConductor(String cedula, String nombre, String licencia, String categoria) {
+        if (cedula == null || cedula.isEmpty() || nombre == null || nombre.isEmpty()) {
+            System.out.println("Error: cédula y nombre no pueden estar vacíos.");
+            return;
+        }
+        boolean existe = conductores.stream().anyMatch(c -> c.getCedula().equalsIgnoreCase(cedula));
+        if (existe) {
+            System.out.println("Error: ya existe un conductor con esa cédula.");
+            return;
+        }
+        Conductor c = new Conductor(nombre, cedula, licencia, categoria);
+        conductores.add(c);
+        System.out.println("Conductor registrado: " + nombre);
     }
 
     public List<Pasajero> getPasajeros() {
         return pasajeros;
+    }
+
+    public List<Conductor> getConductores() {
+        return conductores;
     }
 }
