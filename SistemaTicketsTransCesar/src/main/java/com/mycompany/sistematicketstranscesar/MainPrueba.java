@@ -25,7 +25,7 @@ public class MainPrueba {
         );
         ReporteService reporteService = new ReporteService(ticketService.getTickets());
 
-        int opcion;
+        int opcion = 0;
         do {
             System.out.println("\n=== MENU PRINCIPAL ===");
             System.out.println("1. Registrar vehículo");
@@ -35,6 +35,12 @@ public class MainPrueba {
             System.out.println("5. Generar reporte");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
+            
+            if (!sc.hasNextInt()) {
+                System.out.println("Error: debe ingresar un número.");
+                sc.nextLine(); 
+                continue;
+            }
             opcion = sc.nextInt();
             sc.nextLine(); // limpiar buffer
 
@@ -53,6 +59,11 @@ public class MainPrueba {
                     System.out.print("Cédula: ");
                     String cedulaP = sc.nextLine();
                     System.out.print("Tipo (1-Regular, 2-Estudiante, 3-Adulto Mayor): ");
+                    if (!sc.hasNextInt()) {
+                        System.out.println("Error: debe ingresar un número válido.");
+                        sc.nextLine();
+                        break;
+                    }
                     int tipoNum = sc.nextInt();
                     sc.nextLine();
                     personaService.registrarPasajero(cedulaP, nombreP, tipoNum);
@@ -76,15 +87,33 @@ public class MainPrueba {
                         for (int i = 0; i < vehiculoService.getVehiculos().size(); i++) {
                             System.out.println(i + ". " + vehiculoService.getVehiculos().get(i).getPlaca());
                         }
+                        if (!sc.hasNextInt()) {
+                            System.out.println("Error: debe ingresar un número válido.");
+                            sc.nextLine();
+                            break;
+                        }
                         int idxVehiculo = sc.nextInt();
                         sc.nextLine();
+                        if (idxVehiculo < 0 || idxVehiculo >= vehiculoService.getVehiculos().size()) {
+                            System.out.println("Error: índice de vehículo inválido.");
+                            break;
+                        }
 
                         System.out.println("Seleccione pasajero:");
                         for (int i = 0; i < personaService.getPasajeros().size(); i++) {
                             System.out.println(i + ". " + personaService.getPasajeros().get(i).getNombre());
                         }
+                        if (!sc.hasNextInt()) {
+                            System.out.println("Error: debe ingresar un número válido.");
+                            sc.nextLine();
+                            break;
+                        }
                         int idxPasajero = sc.nextInt();
                         sc.nextLine();
+                        if (idxPasajero < 0 || idxPasajero >= personaService.getPasajeros().size()) {
+                            System.out.println("Error: índice de pasajero inválido.");
+                            break;
+                        }
 
                         String cedulaSel = personaService.getPasajeros().get(idxPasajero).getCedula();
                         String placaSel = vehiculoService.getVehiculos().get(idxVehiculo).getPlaca();
