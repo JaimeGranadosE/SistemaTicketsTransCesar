@@ -72,12 +72,29 @@ public class SistemaTicketsTransCesar {
                     if (vehiculoService.getVehiculos().isEmpty() || personaService.getPasajeros().isEmpty()) {
                         System.out.println("Debe registrar al menos un vehículo y un pasajero antes de vender tickets.");
                     } else {
-                        Vehiculo vehiculoTicket = vehiculoService.getVehiculos().get(0); // ejemplo: primer vehículo
-                        Pasajero pasajeroTicket = personaService.getPasajeros().get(0); // ejemplo: primer pasajero
+                        System.out.println("Seleccione vehículo:");
+                        for (int i = 0; i < vehiculoService.getVehiculos().size(); i++) {
+                            System.out.println(i + ". " + vehiculoService.getVehiculos().get(i).getPlaca());
+                        }
+                        int idxVehiculo = sc.nextInt();
+                        sc.nextLine();
+
+                        System.out.println("Seleccione pasajero:");
+                        for (int i = 0; i < personaService.getPasajeros().size(); i++) {
+                            System.out.println(i + ". " + personaService.getPasajeros().get(i).getNombre());
+                        }
+                        int idxPasajero = sc.nextInt();
+                        sc.nextLine();
+
                         System.out.print("Precio del ticket: ");
                         double precio = sc.nextDouble();
                         sc.nextLine();
-                        Ticket t = new Ticket(vehiculoTicket, pasajeroTicket, precio);
+
+                        Ticket t = new Ticket(
+                            vehiculoService.getVehiculos().get(idxVehiculo),
+                            personaService.getPasajeros().get(idxPasajero),
+                            precio
+                        );
                         ticketService.registrarTicket(t);
                     }
                     break;
