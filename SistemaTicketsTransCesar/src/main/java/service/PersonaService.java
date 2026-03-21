@@ -18,7 +18,6 @@ public class PersonaService {
     private List<Conductor> conductores = new ArrayList<>();
     private List<Pasajero> pasajeros = new ArrayList<>();
 
-    // Método original con objetos
     public void registrarConductor(Conductor c) {
         conductores.add(c);
         System.out.println("Conductor registrado: " + c.getNombre());
@@ -28,8 +27,7 @@ public class PersonaService {
         pasajeros.add(p);
         System.out.println("Pasajero registrado: " + p.getNombre());
     }
-
-    // 🔹 Sobrecargas con parámetros simples (compatibles con Menu)
+    
     public void registrarConductor(String cedula, String nombre, String licencia, String categoria) {
         Conductor c = new Conductor(nombre, cedula, licencia);
         conductores.add(c);
@@ -43,7 +41,6 @@ public class PersonaService {
         System.out.println("Pasajero registrado: " + p.getNombre() + " (" + tipoStr + ")");
     }
 
-    // Getters
     public List<Conductor> getConductores() {
         return conductores;
     }
