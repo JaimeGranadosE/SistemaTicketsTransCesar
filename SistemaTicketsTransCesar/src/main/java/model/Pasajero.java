@@ -8,14 +8,22 @@ package model;
  *
  * @author Personal
  */
+public class Pasajero {
+    private String cedula;
+    private String nombre;
+    private int tipo;
 
-public class Pasajero extends Persona {
-    private String tipo;
-
-    public Pasajero(String nombre, String cedula, String tipo) {
-        super(nombre, cedula);
+    public Pasajero(String cedula, String nombre, int tipo) {
+        this.cedula = cedula;
+        this.nombre = nombre;
         this.tipo = tipo;
     }
+    
+    public String getCedula() { return cedula; }
+    public String getNombre() { return nombre; }
+    public int getTipo() { return tipo; }
 
-    public String getTipo() { return tipo; }
+    public void setCedula(String cedula) { this.cedula = cedula; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+    public void setTipo(int tipo) { this.tipo = tipo; }
 }

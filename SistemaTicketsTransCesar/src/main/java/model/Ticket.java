@@ -23,4 +23,8 @@ public class Ticket {
     public Vehiculo getVehiculo() { return vehiculo; }
     public Pasajero getPasajero() { return pasajero; }
     public double getPrecio() { return precio; }
+
+    public void setVehiculo(Vehiculo vehiculo) { this.vehiculo = vehiculo; }
+    public void setPasajero(Pasajero pasajero) { this.pasajero = pasajero; }
+    public void setPrecio(double precio) { this.precio = precio; }
 }

@@ -10,14 +10,21 @@ package model;
  */
 
 public class Vehiculo {
+    private String tipo;
     private String placa;
-    private String modelo;
+    private String ruta;
 
-    public Vehiculo(String placa, String modelo) {
+    public Vehiculo(String tipo, String placa, String ruta) {
+        this.tipo = tipo;
         this.placa = placa;
-        this.modelo = modelo;
+        this.ruta = ruta;
     }
 
+    public String getTipo() { return tipo; }
     public String getPlaca() { return placa; }
-    public String getModelo() { return modelo; }
+    public String getRuta() { return ruta; }
+
+    public void setTipo(String tipo) { this.tipo = tipo; }
+    public void setPlaca(String placa) { this.placa = placa; }
+    public void setRuta(String ruta) { this.ruta = ruta; }
 }
