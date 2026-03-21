@@ -24,4 +24,10 @@ public class VehiculoService {
     public List<Vehiculo> getVehiculos() {
         return vehiculos;
     }
+    
+    public void registrarVehiculo(String tipo, String placa, String ruta) {
+        Vehiculo v = new Vehiculo(placa, tipo + " - " + ruta);
+        vehiculos.add(v);
+        System.out.println("Vehículo registrado: " + v.getPlaca() + " (" + tipo + ")");
+    }
 }
