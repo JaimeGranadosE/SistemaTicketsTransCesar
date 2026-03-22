@@ -1,4 +1,4 @@
-package service;
+package com.mycompany.sistematicketstranscesar.service;
 
 public class ReporteService {
 
