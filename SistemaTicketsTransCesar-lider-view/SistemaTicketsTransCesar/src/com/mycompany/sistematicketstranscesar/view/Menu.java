@@ -23,8 +23,10 @@ public class Menu {
             System.out.println("3. Registrar pasajero");
             System.out.println("4. Vender ticket");
             System.out.println("5. Reportes");
-            System.out.println("6. Salir");
-            System.out.print("Seleccione una opción: ");
+            System.out.println("6. Mostrar vehiculos"); 
+            System.out.println("7. Mostrar personas");
+            System.out.println("8. Mostrar tickets");
+            System.out.println("9. Salir");
 
             opcion = sc.nextInt();
             sc.nextLine();
@@ -35,10 +37,13 @@ public class Menu {
                 case 3: registrarPasajero(); break;
                 case 4: venderTicket(); break;
                 case 5: menuReportes(); break;
-                case 6: System.out.println("Saliendo del sistema..."); break;
+                case 6: vehiculoService.mostrarVehiculos(); break; // 👈 NUEVO
+                case 7: personaService.mostrarPersonas(); break;
+                case 8: ticketService.mostrarTickets(); break;
+                case 9: System.out.println("Saliendo del sistema..."); break;
                 default: System.out.println("Opcion inválida");
             }
-        } while(opcion != 6);
+        } while(opcion != 9);
     }
 
     private void registrarVehiculo() {
