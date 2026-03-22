@@ -12,17 +12,31 @@ public class ReporteService {
     public void listarTickets() {
         System.out.println("\n--- LISTA DE TICKETS ---");
 
-        for (String t : ticketDAO.cargarTickets()) {
+        List<String> tickets = ticketDAO.cargarTickets();
+
+        if (tickets.isEmpty()) {
+            System.out.println("No hay tickets registrados");
+            return;
+        }
+
+        for (String t : tickets) {
             System.out.println(t);
         }
     }
 
     public void totalRecaudado() {
 
-        int total = 0;
-        int precio = 5000; // puedes cambiar el valor si quieres
+        List<String> tickets = ticketDAO.cargarTickets();
 
-        for (String t : ticketDAO.cargarTickets()) {
+        if (tickets.isEmpty()) {
+            System.out.println("No hay tickets registrados");
+            return;
+        }
+
+        int total = 0;
+        int precio = 5000;
+
+        for (String t : tickets) {
             total += precio;
         }
 
@@ -31,11 +45,21 @@ public class ReporteService {
 
     public void pasajerosPorTipo() {
 
+        List<String> personas = personaDAO.cargarPersonas();
+
+        if (personas.isEmpty()) {
+            System.out.println("No hay personas registradas");
+            return;
+        }
+
         int regular = 0, estudiante = 0, adulto = 0;
 
-        for (String p : personaDAO.cargarPersonas()) {
+        for (String p : personas) {
 
             String[] datos = p.split(";");
+
+            // 🔴 Validar estructura correcta
+            if (datos.length < 4) continue;
 
             if (datos[0].equals("PASAJERO")) {
 
@@ -54,11 +78,22 @@ public class ReporteService {
 
     public void vehiculoMasVentas() {
 
+        List<String> tickets = ticketDAO.cargarTickets();
+
+        if (tickets.isEmpty()) {
+            System.out.println("No hay ventas registradas aún");
+            return;
+        }
+
         Map<String, Integer> conteo = new HashMap<>();
 
-        for (String t : ticketDAO.cargarTickets()) {
+        for (String t : tickets) {
 
             String[] datos = t.split(";");
+
+            // 🔴 Validar estructura
+            if (datos.length < 2) continue;
+
             String placa = datos[1];
 
             conteo.put(placa, conteo.getOrDefault(placa, 0) + 1);
